@@ -7,14 +7,15 @@ services:
       POSTGRES_PASSWORD: payments
       POSTGRES_DB: payments
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./deploy/postgres:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U payments" ]
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   redis:
     image: redis:8-alpine
